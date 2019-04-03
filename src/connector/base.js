@@ -34,17 +34,17 @@ class Connector {
     }
   }
 
-  closeServer() {
+  closeServer(callback) {
     if (this.dataServer) {
-      this.dataServer.close();
+      this.dataServer.close(callback);
       this.dataServer = null;
     }
   }
 
 
-  end() {
+  end(callback) {
     this.closeSocket();
-    this.closeServer();
+    this.closeServer(callback);
 
     this.type = false;
     this.connection.connector = new Connector(this);

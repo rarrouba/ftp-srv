@@ -28,7 +28,7 @@ module.exports = {
         stream.on('data', (data) => {
           if (stream) stream.pause();
           if (this.connector.socket) {
-            this.connector.socket.write(data, this.transferType, () => stream && stream.resume());
+            this.connector.socket.write(data, this.transferType,()  => stream && stream.resume());
           }
         });
         stream.once('end', () => resolve());
@@ -42,7 +42,6 @@ module.exports = {
       return this.reply(150).then(() => stream.resume() && this.connector.socket.resume())
       .then(() => eventsPromise)
       .tap(() => this.emit('RETR', null, serverPath))
-      .then(() => this.reply(226, clientPath))
       .finally(() => stream.destroy && stream.destroy());
     })
     .catch(Promise.TimeoutError, (err) => {
@@ -55,7 +54,7 @@ module.exports = {
       return this.reply(551, err.message);
     })
     .finally(() => {
-      this.connector.end();
+      this.connector.end(() => this.reply(226, filePath));
       this.commandSocket.resume();
     });
   },

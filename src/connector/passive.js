@@ -59,9 +59,10 @@ class Passive extends Connector {
       this.dataServer.maxConnections = 1;
 
       this.dataServer.on('error', (err) => this.server && this.server.emit('client-error', {connection: this.connection, context: 'dataServer', error: err}));
-      this.dataServer.once('close', () => {
+      this.dataServer.once('close', (callback) => {
         this.log.trace('Passive server closed');
         this.end();
+        if(callback) callback;
       });
 
       if (this.connection.secure) {
