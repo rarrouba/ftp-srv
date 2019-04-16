@@ -54,7 +54,7 @@ module.exports = {
       return this.reply(551, err.message);
     })
     .finally(() => {
-      this.connector.end(() => this.reply(226, filePath));
+      this.connector.end(() => {this.reply(226, filePath);this.emit('RETR', null,'FINISHED')});
       this.commandSocket.resume();
     });
   },
