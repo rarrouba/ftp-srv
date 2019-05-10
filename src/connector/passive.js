@@ -62,7 +62,7 @@ class Passive extends Connector {
       this.dataServer.once('close', (callback) => {
         this.log.trace('Passive server closed');
         this.end();
-        if(callback) callback;
+        if(callback) callback();
       });
 
       if (this.connection.secure) {
