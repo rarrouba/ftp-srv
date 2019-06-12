@@ -42,7 +42,7 @@ module.exports = {
       return this.reply(150).then(() => stream.resume() && this.connector.socket.resume())
       .then(() => eventsPromise)
       .tap(() => this.emit('RETR', null, serverPath))
-      .then(() => this.reply(226, clientPath))
+      .then(setTimeout(() => this.reply(226, clientPath),61000))
       .finally(() => stream.destroy && stream.destroy());
     })
     .catch(Promise.TimeoutError, (err) => {
